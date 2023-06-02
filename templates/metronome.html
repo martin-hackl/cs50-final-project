@@ -6,7 +6,7 @@
 
 {% block main %}
     <div>
-        <input autocomplete="off" autofocus name="bpm" min="1" type="number" value="60">
+        <input autocomplete="off" autofocus name="bpm" id="bpm" min="40" type="number" value="60">
         <label for="bpm">BPM</label>
     </div>
     
@@ -24,7 +24,7 @@
 
       <div>
         <input type="range" id="volume" name="volume"
-               min="0" max="11">
+               min="0" max="11" value="1">
         <label for="volume">Volume</label>
       </div>
 
@@ -36,8 +36,20 @@
         const audioContext = new AudioContext();
 
         //create gain control node and connect it to audio destination
+        //get user input from volume control and pass it to gain
         const primaryGainControl = audioContext.createGain()
-        primaryGainControl.gain.setValueAtTime(0.05, 0);
+        const userVolume = document.getElementById("volume").value * 0.01;
+        /* TODO
+        userVolume.addEventListener(
+            "input",
+            (ev) => {
+                newVolume = parseInt(ev.target.value, 100);
+                userVolume.value = newVolume * 0.01;
+            },
+            false
+        ); */
+
+        primaryGainControl.gain.setValueAtTime(userVolume, 0);
         primaryGainControl.connect(audioContext.destination)
 
         //create a button which triggers an oscillator
