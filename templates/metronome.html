@@ -29,7 +29,7 @@
       </div>
 
       <div class="d-grid gap-2 col-6 mx-auto">
-        <button class="btn btn-primary" type="button">Play</button>
+        <button class="btn btn-primary" id="playbutton" type="button">Play</button>
       </div>
 
       <script>
@@ -54,7 +54,43 @@
             },
             false
         ); 
-          
+
+        //onclick event for playbutton
+        let loopplay = false;
+
+        document.getElementById("playbutton").addEventListener(
+            "click",
+            (ev) => {
+                if(loopplay == false){
+                    loopplay = true;
+                    while(loopplay == true){
+                        const firstOscillator = audioContext.createOscillator()
+                        firstOscillator.frequency.setValueAtTime(800, 0)
+                        firstOscillator.connect(primaryGainControl)
+                        firstOscillator.start(audioContext.currentTime)
+                        firstOscillator.stop(audioContext.currentTime + 0.08)
+                        
+                        
+
+                        firstOscillator.start(audioContext.currentTime)
+                        firstOscillator.stop(audioContext.currentTime + 0.08)
+
+                        
+
+                    }
+                }
+
+                else if(loopplay == true){
+                    loopplay = false;
+                }
+
+                console.log(loopplay);
+            },
+            false
+        )
+        
+        
+        //audio output
         primaryGainControl.connect(audioContext.destination)
 
         //create a button which triggers an oscillator
