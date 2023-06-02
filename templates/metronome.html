@@ -24,7 +24,7 @@
 
       <div>
         <input type="range" id="volume" name="volume"
-               min="0" max="11" value="1">
+               min="0" max="50" value="25">
         <label for="volume">Volume</label>
       </div>
 
@@ -38,18 +38,23 @@
         //create gain control node and connect it to audio destination
         //get user input from volume control and pass it to gain
         const primaryGainControl = audioContext.createGain()
-        const userVolume = document.getElementById("volume").value * 0.01;
-        /* TODO
-        userVolume.addEventListener(
+        let userVolume = document.getElementById("volume").value * 0.01;
+        
+        //setting initial gain value
+        primaryGainControl.gain.setValueAtTime(userVolume, 0);
+
+        //update gain on user input
+        document.getElementById("volume").addEventListener(
             "input",
             (ev) => {
-                newVolume = parseInt(ev.target.value, 100);
-                userVolume.value = newVolume * 0.01;
+                //console.log(ev)
+                let newVolume = document.getElementById("volume").value;
+                userVolume = newVolume * 0.01;
+                primaryGainControl.gain.setValueAtTime(userVolume, 0);
             },
             false
-        ); */
-
-        primaryGainControl.gain.setValueAtTime(userVolume, 0);
+        ); 
+          
         primaryGainControl.connect(audioContext.destination)
 
         //create a button which triggers an oscillator
