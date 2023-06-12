@@ -6,20 +6,20 @@
 
 {% block main %}
     <div>
-        <input autocomplete="off" autofocus name="bpm" id="bpm" min="40" type="number" value="60">
+        <input autocomplete="off" autofocus name="bpm" id="bpm" min="40" max="250" type="number" value="60">
         <label for="bpm">BPM</label>
     </div>
     
 
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio1">2/4</label>
-      
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio2">3/4</label>
-      
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" checked>
-        <label class="btn btn-outline-primary" for="btnradio3">4/4</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="2">
+            <label class="btn btn-outline-primary" for="btnradio1">2/4</label>
+        
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="3">
+            <label class="btn btn-outline-primary" for="btnradio2">3/4</label>
+        
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value ="4" checked>
+            <label class="btn btn-outline-primary" for="btnradio3">4/4</label>
       </div>
 
       <div>
@@ -33,7 +33,37 @@
       </div>
 
       <script>
+        let isPlaying = false;
+        let tempo = 60;
+        let measure = 4;
+        let pulseHZFirst = 880;
+        let pulseHZ = 440;
         const audioContext = new AudioContext();
+
+        //Eventlistener for BPM Changes
+        document.getElementById("bpm").addEventListener(
+            "change",
+            (ev) => {
+                tempo = document.getElementById("bpm").value;
+                console.log(tempo)
+            },
+            false
+        )
+        
+        //Eventlistener for Radiobuttons Measure changes
+        let radioBtns = document.querySelectorAll("input[name='btnradio']");
+        
+        let findSelected = () => {
+            measure = document.querySelector("input[name='btnradio']:checked").value;
+            console.log(measure)
+        }
+        
+        radioBtns.forEach(radioBtn => {
+            radioBtn.addEventListener(
+                "change",
+                findSelected
+            );
+        });
 
         //create gain control node and connect it to audio destination
         //get user input from volume control and pass it to gain
@@ -55,36 +85,28 @@
             false
         ); 
 
-        //onclick event for playbutton
-        let loopplay = false;
+        //onclick event for playbutton switch true/false
 
         document.getElementById("playbutton").addEventListener(
             "click",
             (ev) => {
-                if(loopplay == false){
-                    loopplay = true;
-                    while(loopplay == true){
+                if(isPlaying == false){
+                    isPlaying = true;
+                    while(isPlaying == true){
                         const firstOscillator = audioContext.createOscillator()
                         firstOscillator.frequency.setValueAtTime(800, 0)
                         firstOscillator.connect(primaryGainControl)
                         firstOscillator.start(audioContext.currentTime)
                         firstOscillator.stop(audioContext.currentTime + 0.08)
                         
-                        
-
-                        firstOscillator.start(audioContext.currentTime)
-                        firstOscillator.stop(audioContext.currentTime + 0.08)
-
-                        
-
                     }
                 }
 
-                else if(loopplay == true){
-                    loopplay = false;
+                else if(isPlaying == true){
+                    isPlaying = false;
                 }
 
-                console.log(loopplay);
+                console.log(isPlaying);
             },
             false
         )
@@ -99,7 +121,7 @@
         firstClickButton.addEventListener("click", () => {
             const clickOscillator = audioContext.createOscillator()
 
-            clickOscillator.frequency.setValueAtTime(800, 0)
+            clickOscillator.frequency.setValueAtTime(pulseHZFirst, 0)
             clickOscillator.connect(primaryGainControl)
             clickOscillator.start()
             clickOscillator.stop(audioContext.currentTime + 0.08)
@@ -113,7 +135,7 @@
         clickButton.addEventListener("click", () => {
             const clickOscillator = audioContext.createOscillator()
 
-            clickOscillator.frequency.setValueAtTime(600, 0)
+            clickOscillator.frequency.setValueAtTime(pulseHZ, 0)
             clickOscillator.connect(primaryGainControl)
             clickOscillator.start()
             clickOscillator.stop(audioContext.currentTime + 0.08)
