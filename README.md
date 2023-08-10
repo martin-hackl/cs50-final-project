@@ -4,6 +4,6 @@
 TODO 
 
 Ideas:
-- Tab Tempo
+- Tab Tempo?
 - Metronome
 - Tuner?

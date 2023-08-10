@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block main %}
-    <div>
+<h1>Metronome</h1>
+
+<div>
         <input autocomplete="off" autofocus name="bpm" id="bpm" min="40" max="250" type="number" value="60">
         <label for="bpm">BPM</label>
     </div>
@@ -34,8 +36,9 @@
 
       <script>
         let isPlaying = false;
-        let tempo = 60;
-        let measure = 4;
+        let tempo = 60.0;
+        let currentBeat = 1;
+        let maxBeats = 4;
         let pulseHZFirst = 880;
         let pulseHZ = 440;
         const audioContext = new AudioContext();
@@ -54,8 +57,8 @@
         let radioBtns = document.querySelectorAll("input[name='btnradio']");
         
         let findSelected = () => {
-            measure = document.querySelector("input[name='btnradio']:checked").value;
-            console.log(measure)
+            maxBeats = document.querySelector("input[name='btnradio']:checked").value;
+            console.log(maxBeats)
         }
         
         radioBtns.forEach(radioBtn => {
@@ -93,11 +96,24 @@
                 if(isPlaying == false){
                     isPlaying = true;
                     while(isPlaying == true){
+
+                        //creating two oscillator 
                         const firstOscillator = audioContext.createOscillator()
-                        firstOscillator.frequency.setValueAtTime(800, 0)
+                        const secondOscillator = audioContext.createOscillator()
+
+                        firstOscillator.frequency.setValueAtTime(pulseHZFirst, 0)
                         firstOscillator.connect(primaryGainControl)
+
+                        secondOscillator.frequency.setValueAtTime(pulseHZ, 0)
+                        secondOscillator.connect(primaryGainControl)
+
                         firstOscillator.start(audioContext.currentTime)
+                        secondOscillator.start(audioContext.currentTime + 1)
+
                         firstOscillator.stop(audioContext.currentTime + 0.08)
+                        secondOscillator.stop(audioContext.currentTime + 1 + 0.08)
+
+                        isPlaying = false;
                         
                     }
                 }
@@ -144,5 +160,5 @@
         document.body.appendChild(clickButton)
 
       </script>
-
+    
 {% endblock %}
