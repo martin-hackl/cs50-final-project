@@ -7,7 +7,61 @@
 {% block main %}
     <h1>Tuner</h1>
 
-    Coming soon!
+    <p>For the moment you can playback every note and tune your guitar by ear. Maybe I will try to implement a more advanced tuner later.</p>
+    <p>The sounds I use are from <a href="https://freesound.org/people/Kyster/packs/7397/" target="_blank">Freesound.org</a></p>
+    <ul>https://freesound.org/people/Kyster/packs/7397/</ul>
+
+    
+    <button class="btn btn-primary" id="Dlow" type="button">low D</button>
+    <button class="btn btn-primary" id="E" type="button">E</button>
+    <button class="btn btn-primary" id="A" type="button">A</button>
+    <button class="btn btn-primary" id="D" type="button">D</button>
+    <button class="btn btn-primary" id="G" type="button">G</button>
+    <button class="btn btn-primary" id="B" type="button">B</button>
+    <button class="btn btn-primary" id="e" type="button">e</button>
+
+    <script>
+            const urlE = "https://cdn.freesound.org/previews/117/117677_646701-lq.mp3"
+            const urlA = "https://cdn.freesound.org/previews/117/117673_646701-lq.mp3"
+            
+            let ctx = null;
+            let audio;
+
+            async function createAudioContext(note){
+                ctx = new AudioContext();
+
+                fetch(note)
+                    .then(data => data.arrayBuffer())
+                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+                    .then(decodedAudio => {
+                        audio = decodedAudio;
+                    });
+            return 1;
+            }
+
+            function playback() {
+                const playSound = ctx.createBufferSource();
+                playSound.buffer = audio;
+                playSound.connect(ctx.destination);
+                playSound.start(ctx.currentTime);
+            }
+
+            document.getElementById("E").addEventListener("click", async () => {
+                await createAudioContext(urlE);
+                console.log("1");
+                playback();
+                console.log("2");
+            });
+
+            document.getElementById("A").addEventListener("click", async () => {
+                await createAudioContext(urlA);
+                console.log("1");
+                playback();
+                console.log("2");
+            });
+
+    </script>
+
 
 
 
