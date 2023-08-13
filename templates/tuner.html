@@ -23,10 +23,17 @@
     <script>
             const urlE = "https://cdn.freesound.org/previews/117/117677_646701-lq.mp3"
             const urlA = "https://cdn.freesound.org/previews/117/117673_646701-lq.mp3"
+            const urlD = "https://cdn.freesound.org/previews/117/117676_646701-lq.mp3"
+            const urlG = "https://cdn.freesound.org/previews/117/117678_646701-lq.mp3"
+            const urlB = "https://cdn.freesound.org/previews/117/117674_646701-lq.mp3"
+            const urle = "https://cdn.freesound.org/previews/117/117679_646701-lq.mp3"
+            const urlDlow = "https://cdn.freesound.org/previews/117/117675_646701-lq.mp3"
             
             let ctx = null;
             let audio;
+            let timeout;
 
+            //create audio context and buffer audiofile
             async function createAudioContext(note){
                 ctx = new AudioContext();
 
@@ -39,6 +46,7 @@
             return 1;
             }
 
+            //playback buffered audiofile
             function playback() {
                 const playSound = ctx.createBufferSource();
                 playSound.buffer = audio;
@@ -46,18 +54,42 @@
                 playSound.start(ctx.currentTime);
             }
 
+            //Eventlisteners for buttons calling createAudioContext() and then playback()
+            //improvements to make -> get rid of the timeout function and use async function correctly
+
             document.getElementById("E").addEventListener("click", async () => {
                 await createAudioContext(urlE);
-                console.log("1");
-                playback();
-                console.log("2");
+                timeout = setTimeout(playback, 50);
             });
 
             document.getElementById("A").addEventListener("click", async () => {
                 await createAudioContext(urlA);
-                console.log("1");
-                playback();
-                console.log("2");
+                timeout = setTimeout(playback, 50);
+            });
+
+            document.getElementById("D").addEventListener("click", async () => {
+                await createAudioContext(urlD);
+                timeout = setTimeout(playback, 50);
+            });
+
+            document.getElementById("G").addEventListener("click", async () => {
+                await createAudioContext(urlG);
+                timeout = setTimeout(playback, 50);
+            });
+
+            document.getElementById("B").addEventListener("click", async () => {
+                await createAudioContext(urlB);
+                timeout = setTimeout(playback, 50);
+            });
+
+            document.getElementById("e").addEventListener("click", async () => {
+                await createAudioContext(urle);
+                timeout = setTimeout(playback, 50);
+            });
+
+            document.getElementById("Dlow").addEventListener("click", async () => {
+                await createAudioContext(urlDlow);
+                timeout = setTimeout(playback, 50);
             });
 
     </script>
