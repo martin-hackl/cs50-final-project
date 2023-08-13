@@ -7,9 +7,8 @@
 {% block main %}
     <h1>Tuner</h1>
 
-    <p>For the moment you can playback every note and tune your guitar by ear. Maybe I will try to implement a more advanced tuner later.</p>
+    <p>For the moment you can playback every note and tune your guitar by ear. The "low D" is for Drop D tuning. Maybe I will try to implement a more advanced tuner later.</p>
     <p>The sounds I use are from <a href="https://freesound.org/people/Kyster/packs/7397/" target="_blank">Freesound.org</a></p>
-    <ul>https://freesound.org/people/Kyster/packs/7397/</ul>
 
     
     <button class="btn btn-primary" id="Dlow" type="button">low D</button>
@@ -21,6 +20,8 @@
     <button class="btn btn-primary" id="e" type="button">e</button>
 
     <script>
+            window.addEventListener("DOMContentLoaded", loadPage, false);
+
             const urlE = "https://cdn.freesound.org/previews/117/117677_646701-lq.mp3"
             const urlA = "https://cdn.freesound.org/previews/117/117673_646701-lq.mp3"
             const urlD = "https://cdn.freesound.org/previews/117/117676_646701-lq.mp3"
@@ -33,63 +34,97 @@
             let audio;
             let timeout;
 
-            //create audio context and buffer audiofile
-            async function createAudioContext(note){
+            function loadPage() {
+                //console.log("loadPage")
+                //createAudioContext("viper");
                 ctx = new AudioContext();
-
-                fetch(note)
+                
+                fetch(urlE)
                     .then(data => data.arrayBuffer())
                     .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
                     .then(decodedAudio => {
-                        audio = decodedAudio;
+                        audio_E = decodedAudio;
                     });
-            return 1;
-            }
+
+                fetch(urlA)
+                    .then(data => data.arrayBuffer())
+                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+                    .then(decodedAudio => {
+                        audio_A = decodedAudio;
+                    });
+                
+                fetch(urlD)
+                    .then(data => data.arrayBuffer())
+                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+                    .then(decodedAudio => {
+                        audio_D = decodedAudio;
+                    });
+
+                fetch(urlG)
+                    .then(data => data.arrayBuffer())
+                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+                    .then(decodedAudio => {
+                        audio_G = decodedAudio;
+                    });
+
+                fetch(urlB)
+                    .then(data => data.arrayBuffer())
+                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+                    .then(decodedAudio => {
+                        audio_B = decodedAudio;
+                    });
+
+                fetch(urle)
+                    .then(data => data.arrayBuffer())
+                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+                    .then(decodedAudio => {
+                        audio_e = decodedAudio;
+                    });
+
+                fetch(urlDlow)
+                    .then(data => data.arrayBuffer())
+                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+                    .then(decodedAudio => {
+                        audio_Dlow = decodedAudio;
+                    });
+            }       
 
             //playback buffered audiofile
-            function playback() {
+            function playback(note) {
                 const playSound = ctx.createBufferSource();
-                playSound.buffer = audio;
+                playSound.buffer = note;
                 playSound.connect(ctx.destination);
                 playSound.start(ctx.currentTime);
             }
 
             //Eventlisteners for buttons calling createAudioContext() and then playback()
-            //improvements to make -> get rid of the timeout function and use async function correctly
 
             document.getElementById("E").addEventListener("click", async () => {
-                await createAudioContext(urlE);
-                timeout = setTimeout(playback, 50);
+                playback(audio_E);
             });
 
             document.getElementById("A").addEventListener("click", async () => {
-                await createAudioContext(urlA);
-                timeout = setTimeout(playback, 50);
+                playback(audio_A);
             });
 
             document.getElementById("D").addEventListener("click", async () => {
-                await createAudioContext(urlD);
-                timeout = setTimeout(playback, 50);
+                playback(audio_D);
             });
 
             document.getElementById("G").addEventListener("click", async () => {
-                await createAudioContext(urlG);
-                timeout = setTimeout(playback, 50);
+                playback(audio_G);
             });
 
             document.getElementById("B").addEventListener("click", async () => {
-                await createAudioContext(urlB);
-                timeout = setTimeout(playback, 50);
+                playback(audio_B);
             });
 
             document.getElementById("e").addEventListener("click", async () => {
-                await createAudioContext(urle);
-                timeout = setTimeout(playback, 50);
+                playback(audio_e);
             });
 
             document.getElementById("Dlow").addEventListener("click", async () => {
-                await createAudioContext(urlDlow);
-                timeout = setTimeout(playback, 50);
+                playback(audio_Dlow);
             });
 
     </script>
