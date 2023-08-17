@@ -21,72 +21,53 @@
 
     <script>
             window.addEventListener("DOMContentLoaded", loadPage, false);
-
-            const urlE = "https://cdn.freesound.org/previews/117/117677_646701-lq.mp3"
-            const urlA = "https://cdn.freesound.org/previews/117/117673_646701-lq.mp3"
-            const urlD = "https://cdn.freesound.org/previews/117/117676_646701-lq.mp3"
-            const urlG = "https://cdn.freesound.org/previews/117/117678_646701-lq.mp3"
-            const urlB = "https://cdn.freesound.org/previews/117/117674_646701-lq.mp3"
-            const urle = "https://cdn.freesound.org/previews/117/117679_646701-lq.mp3"
-            const urlDlow = "https://cdn.freesound.org/previews/117/117675_646701-lq.mp3"
             
             let ctx = null;
             let audio;
-            let timeout;
+
+            const notes = [{
+                            name: "E",
+                            link: "https://cdn.freesound.org/previews/117/117677_646701-lq.mp3"
+                            },
+                            {
+                            name: "A",
+                            link: "https://cdn.freesound.org/previews/117/117673_646701-lq.mp3"
+                            },
+                            {
+                            name: "D",
+                            link: "https://cdn.freesound.org/previews/117/117676_646701-lq.mp3"
+                            },
+                            {
+                            name: "G",
+                            link: "https://cdn.freesound.org/previews/117/117678_646701-lq.mp3"
+                            },
+                            {
+                            name: "B",
+                            link: "https://cdn.freesound.org/previews/117/117674_646701-lq.mp3"
+                            },
+                            {
+                            name: "e",
+                            link: "https://cdn.freesound.org/previews/117/117679_646701-lq.mp3"
+                            },
+                            {
+                            name: "Dlow",
+                            link: "https://cdn.freesound.org/previews/117/117675_646701-lq.mp3"
+                            },
+                        ];
+
 
             function loadPage() {
-                //console.log("loadPage")
-                //createAudioContext("viper");
                 ctx = new AudioContext();
-                
-                fetch(urlE)
-                    .then(data => data.arrayBuffer())
-                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-                    .then(decodedAudio => {
-                        audio_E = decodedAudio;
-                    });
 
-                fetch(urlA)
+                //buffer all audiofiles
+                notes.forEach(function(note){
+                    fetch(note.link)
                     .then(data => data.arrayBuffer())
                     .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
                     .then(decodedAudio => {
-                        audio_A = decodedAudio;
+                        note.name = decodedAudio;
                     });
-                
-                fetch(urlD)
-                    .then(data => data.arrayBuffer())
-                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-                    .then(decodedAudio => {
-                        audio_D = decodedAudio;
-                    });
-
-                fetch(urlG)
-                    .then(data => data.arrayBuffer())
-                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-                    .then(decodedAudio => {
-                        audio_G = decodedAudio;
-                    });
-
-                fetch(urlB)
-                    .then(data => data.arrayBuffer())
-                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-                    .then(decodedAudio => {
-                        audio_B = decodedAudio;
-                    });
-
-                fetch(urle)
-                    .then(data => data.arrayBuffer())
-                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-                    .then(decodedAudio => {
-                        audio_e = decodedAudio;
-                    });
-
-                fetch(urlDlow)
-                    .then(data => data.arrayBuffer())
-                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-                    .then(decodedAudio => {
-                        audio_Dlow = decodedAudio;
-                    });
+                })
             }       
 
             //playback buffered audiofile
@@ -97,39 +78,12 @@
                 playSound.start(ctx.currentTime);
             }
 
-            //Eventlisteners for buttons calling createAudioContext() and then playback()
-
-            document.getElementById("E").addEventListener("click", async () => {
-                playback(audio_E);
-            });
-
-            document.getElementById("A").addEventListener("click", async () => {
-                playback(audio_A);
-            });
-
-            document.getElementById("D").addEventListener("click", async () => {
-                playback(audio_D);
-            });
-
-            document.getElementById("G").addEventListener("click", async () => {
-                playback(audio_G);
-            });
-
-            document.getElementById("B").addEventListener("click", async () => {
-                playback(audio_B);
-            });
-
-            document.getElementById("e").addEventListener("click", async () => {
-                playback(audio_e);
-            });
-
-            document.getElementById("Dlow").addEventListener("click", async () => {
-                playback(audio_Dlow);
-            });
-
+            //create eventlistener for each button - calling the playback() function
+            notes.forEach(function(note) {
+                document.getElementById(note.name).addEventListener("click", async () => {
+                    playback(note.name);
+                });
+            })
     </script>
-
-
-
 
 {% endblock %}
