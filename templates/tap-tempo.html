@@ -33,10 +33,10 @@
             if(difference < 2){
                 array.push(difference);
             }
-            console.log(array);
+            console.log(array.slice(-8));
             time = newTime;
 
-            let averageTime = ArrayAvg(array);
+            let averageTime = ArrayAvg(array.slice(-8));
             console.log(averageTime)
             BPM = Math.round(60 / averageTime);
             document.getElementById("bpm").innerHTML = BPM + " BPM";
