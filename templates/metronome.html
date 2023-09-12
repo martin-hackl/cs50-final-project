@@ -15,19 +15,20 @@
         <label for="bpm">BPM</label>
     </div>
 
+    <div class="takt">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="2">
+                <label class="btn btn-outline-primary" for="btnradio1">2/4</label>
 
-    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="2">
-            <label class="btn btn-outline-primary" for="btnradio1">2/4</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="3">
+                <label class="btn btn-outline-primary" for="btnradio2">3/4</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="3">
-            <label class="btn btn-outline-primary" for="btnradio2">3/4</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value ="4" checked>
+                <label class="btn btn-outline-primary" for="btnradio3">4/4</label>
+        </div>
+    </div>
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value ="4" checked>
-            <label class="btn btn-outline-primary" for="btnradio3">4/4</label>
-      </div>
-
-      <div>
+      <div class="volume">
         <input type="range" id="volume" name="volume"
                min="0" max="50" value="25">
         <label for="volume">Volume</label>
