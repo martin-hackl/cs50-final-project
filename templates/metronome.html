@@ -11,7 +11,7 @@
 
 <div class="metronome">
     <div class="bpm">
-        <input autocomplete="off" autofocus name="bpm" id="bpm" min="40" max="250" type="number" value="60">
+        <input autocomplete="off" autofocus name="bpm" id="bpm" min="40" max="250" type="number" value="100">
         <label for="bpm">BPM</label>
     </div>
 
@@ -45,7 +45,7 @@
 
 <script>
     const audioCtx = new AudioContext();
-    let tempo = 60.0;
+    let tempo = 100.0;
     let maxBeats = 4;
     
     const lookahead = 25.0; // How frequently to call scheduling function (in milliseconds)
@@ -80,6 +80,26 @@
     });
 
 
+    //create gain control node and connect it to audio destination
+    //get user input from volume control and pass it to gain
+    const primaryGainControl = audioCtx.createGain()
+    let userVolume = document.getElementById("volume").value * 0.01;
+
+    //setting initial gain value
+    primaryGainControl.gain.setValueAtTime(userVolume, 0);
+    
+    //update gain on user input
+    document.getElementById("volume").addEventListener(
+        "input",
+        (ev) => {
+            let newVolume = document.getElementById("volume").value;
+            userVolume = newVolume * 0.01;
+            primaryGainControl.gain.setValueAtTime(userVolume, 0);
+        },
+        false
+    );
+
+
     let clickHz = 440;
     let firstClickHz = 880;
     const pulseTime = 0.1;
@@ -90,11 +110,7 @@
             frequency: firstClickHz,
         });
 
-        const amp = new GainNode(audioCtx, {
-            value: 1,
-        });
-
-        osc.connect(amp).connect(audioCtx.destination);
+        osc.connect(primaryGainControl).connect(audioCtx.destination);
         osc.start(time);
         osc.stop(time + pulseTime);
     }
@@ -105,17 +121,10 @@
             frequency: clickHz,
         });
 
-        const amp = new GainNode(audioCtx, {
-            value: 1,
-        });
-
-        osc.connect(amp).connect(audioCtx.destination);
+        osc.connect(primaryGainControl).connect(audioCtx.destination);
         osc.start(time);
         osc.stop(time + pulseTime);
     }
-
-
-
 
     function nextNote() {
         const secondsPerBeat = 60.0 / tempo;
@@ -123,7 +132,7 @@
         nextNoteTime += secondsPerBeat; // Add beat length to last beat time
 
         // Advance the beat number, wrap to zero when reaching 4
-        currentNote = (currentNote + 1) % 4;
+        currentNote = (currentNote + 1) % maxBeats;
     }
 
     const notesInQueue = [];
@@ -152,8 +161,6 @@
         timerID = setTimeout(scheduler, lookahead);
     }
 
-
-    
     const playButton = document.getElementById("playbutton");
     let isPlaying = false;
 
@@ -179,179 +186,6 @@
     });
 
 
-
-
-
-        
-        
-        
-        
-        
-        /*
-        let isPlaying = false;
-        let tempo = 60.0;
-        let currentBeat = 1;
-        let maxBeats = 4;
-        let pulseHZFirst = 880;
-        let pulseHZ = 440;
-        const audioContext = new AudioContext();
-
-
-        //create gain control node and connect it to audio destination
-        //get user input from volume control and pass it to gain
-        const primaryGainControl = audioContext.createGain()
-        let userVolume = document.getElementById("volume").value * 0.01;
-
-        //setting initial gain value
-        primaryGainControl.gain.setValueAtTime(userVolume, 0);
-
-        //update gain on user input
-        document.getElementById("volume").addEventListener(
-            "input",
-            (ev) => {
-                //console.log(ev)
-                let newVolume = document.getElementById("volume").value;
-                userVolume = newVolume * 0.01;
-                primaryGainControl.gain.setValueAtTime(userVolume, 0);
-            },
-            false
-        );
-
-        //onclick event for playbutton switch true/false
-
-        document.getElementById("playbutton").addEventListener(
-            "click",
-            (ev) => {
-                if(isPlaying == false){
-                    isPlaying = true;
-                    while(isPlaying == true){
-
-                        //creating two oscillator
-                        const firstOscillator = audioContext.createOscillator()
-                        const secondOscillator = audioContext.createOscillator()
-
-                        firstOscillator.frequency.setValueAtTime(pulseHZFirst, 0)
-                        firstOscillator.connect(primaryGainControl)
-
-                        secondOscillator.frequency.setValueAtTime(pulseHZ, 0)
-                        secondOscillator.connect(primaryGainControl)
-
-                        firstOscillator.start(audioContext.currentTime)
-                        secondOscillator.start(audioContext.currentTime + 1)
-
-                        firstOscillator.stop(audioContext.currentTime + 0.08)
-                        secondOscillator.stop(audioContext.currentTime + 1 + 0.08)
-
-                        isPlaying = false;
-
-                    }
-                }
-
-                else if(isPlaying == true){
-                    isPlaying = false;
-                }
-
-                console.log(isPlaying);
-            },
-            false
-        )
-
-
-        //audio output
-        primaryGainControl.connect(audioContext.destination)
-
-        //create a button which triggers an oscillator
-        const firstClickButton = document.createElement('button')
-        firstClickButton.innerText = "First Click"
-        firstClickButton.addEventListener("click", () => {
-            const clickOscillator = audioContext.createOscillator()
-
-            clickOscillator.frequency.setValueAtTime(pulseHZFirst, 0)
-            clickOscillator.connect(primaryGainControl)
-            clickOscillator.start()
-            clickOscillator.stop(audioContext.currentTime + 0.08)
-        })
-
-        document.body.appendChild(firstClickButton)
-
-        //create a second button which triggers an oscillator
-        const clickButton = document.createElement('button')
-        clickButton.innerText = "Click"
-        clickButton.addEventListener("click", () => {
-            const clickOscillator = audioContext.createOscillator()
-
-            clickOscillator.frequency.setValueAtTime(pulseHZ, 0)
-            clickOscillator.connect(primaryGainControl)
-            clickOscillator.start()
-            clickOscillator.stop(audioContext.currentTime + 0.08)
-        })
-
-        document.body.appendChild(clickButton)
-
-        */
-        //window.addEventListener("DOMContentLoaded", loadPage, false);
-
-        //let audioContext = null;
-
-        /*function loadPage() {
-                audioContext = new AudioContext();
-        }
-        */
-       
-       
-       /*
-
-        var audioContext = null;
-        let isPlaying = false;
-        let bpm = 140.0;
-        let currentBeat = 1;
-        let maxBeats = 4;
-        let pulseHZFirst = 880;
-        let pulseHZ = 440;
-
-        //create gain control node and connect it to audio destination
-        audioContext = new AudioContext();
-        const primaryGainControl = audioContext.createGain()
-
-        //setting initial gain value
-        let userVolume = document.getElementById("volume").value * 0.01;
-        primaryGainControl.gain.setValueAtTime(userVolume, 0);
-
-        //update gain on user input
-        document.getElementById("volume").addEventListener(
-            "input",
-            (ev) => {
-                //console.log(ev)
-                let newVolume = document.getElementById("volume").value;
-                userVolume = newVolume * 0.01;
-                primaryGainControl.gain.setValueAtTime(userVolume, 0);
-            },
-            false
-        );
-
-        //creating two oscillator
-        var osc = audioContext.createOscillator();
-        osc.connect(primaryGainControl);
-
-        if (currentBeat == 1){
-            osc.frequency.setValueAtTime(pulseHZFirst, 0);
-        } else {
-            osc.frequency.setValueAtTime(pulseHZ, 0);
-        }
-
-
-
-        setInterval(myTimer, 1000);
-
-        function myTimer() {
-            console.log("Hello!")
-            firstOscillator.connect(primaryGainControl)
-            firstOscillator.start(audioContext.currentTime)
-            firstOscillator.stop(audioContext.currentTime + 0.08)
-            firstOscillator.disconnect(primaryGainControl)
-        }
-
-        */
-      </script>
+</script>
 
 {% endblock %}
