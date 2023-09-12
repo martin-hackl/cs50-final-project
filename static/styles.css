@@ -47,6 +47,10 @@
   --bs-btn-padding-y: 0.5rem;
 }
 
+.btn-outline-primary {
+  font-size: 14pt;  
+}
+
 #playbutton {
   margin: 20px;
 }
