@@ -179,9 +179,11 @@
         nextNoteTime = audioCtx.currentTime;
         scheduler(); // kick off scheduling
         ev.target.dataset.playing = "true";
+        playButton.innerHTML = "Stop";
         } else {
         clearTimeout(timerID);
         ev.target.dataset.playing = "false";
+        playButton.innerHTML = "Play";
         }
     });
 
