@@ -78,7 +78,7 @@
                 playSound.start(ctx.currentTime);
             }
 
-            //create eventlistener for each button - calling the playback() function
+            //create eventlistener for each button - calling the playback() function on click
             notes.forEach(function(note) {
                 document.getElementById(note.name).addEventListener("click", async () => {
                     playback(note.name);

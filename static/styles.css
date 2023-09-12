@@ -12,3 +12,16 @@
     background-color: rgba(37,156,224,1);
     cursor: pointer;
   }
+
+.metronome {
+  border: 3px solid rgba(37,156,224,1);
+  padding: 10px;
+
+}
+
+.bpm {
+  display: flex;
+  justify-content: center;
+}
+
+
