@@ -8,7 +8,57 @@
     <h1>Tap Tempo</h1>
 
     Coming soon!
+    <h1 id="bpm">0 BPM</h1>
+    <button id="click">Click</button>
+    <button id="reset">Reset</button>
 
+<script>
+    let time = 0;
+    let difference = 0;
+    let array = []
+    let BPM = 0;
+
+    console.log(time);
+
+    const button = document.getElementById("click");
+
+    button.addEventListener("click", (event) => {
+        if(time == 0){
+            time = Date.now();
+        }else{
+            let newTime = Date.now();
+            difference = (newTime - time)/1000;
+            console.log("click");
+            
+            if(difference < 2){
+                array.push(difference);
+            }
+            console.log(array);
+            time = newTime;
+
+            let averageTime = ArrayAvg(array);
+            console.log(averageTime)
+            BPM = Math.round(60 / averageTime);
+            document.getElementById("bpm").innerHTML = BPM + " BPM";
+        }
+    });
+
+    document.getElementById("reset").addEventListener("click", (event) => {
+        array = [];
+        time = 0;
+        BPM = 0;
+        document.getElementById("bpm").innerHTML = BPM + " BPM";
+    });
+
+    function ArrayAvg(myArray) {
+        var i = 0, summ = 0, ArrayLen = myArray.length;
+        while (i < ArrayLen) {
+            summ = summ + myArray[i++];
+        }
+        return summ / ArrayLen;
+    }
+
+</script>
 
 
 {% endblock %}
