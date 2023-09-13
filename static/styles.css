@@ -48,10 +48,21 @@
 }
 
 .btn-outline-primary {
-  font-size: 14pt;  
+  font-size: 14pt;
 }
 
 #playbutton {
   margin: 20px;
 }
 
+.notebuttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.notebutton {
+  align-self: auto;
+  flex-grow: 1;
+}

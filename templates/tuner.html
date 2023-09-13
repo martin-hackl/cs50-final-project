@@ -10,18 +10,19 @@
     <p>For the moment you can playback every note and tune your guitar by ear. The "low D" is for Drop D tuning. Maybe I will try to implement a more advanced tuner later.</p>
     <p>The sounds I use are from <a href="https://freesound.org/people/Kyster/packs/7397/" target="_blank">Freesound.org</a></p>
 
-    
-    <button class="btn btn-primary" id="Dlow" type="button">low D</button>
-    <button class="btn btn-primary" id="E" type="button">E</button>
-    <button class="btn btn-primary" id="A" type="button">A</button>
-    <button class="btn btn-primary" id="D" type="button">D</button>
-    <button class="btn btn-primary" id="G" type="button">G</button>
-    <button class="btn btn-primary" id="B" type="button">B</button>
-    <button class="btn btn-primary" id="e" type="button">e</button>
+    <div class="notebuttons">
+        <button class="btn btn-primary notebutton" id="Dlow" type="button">low D</button>
+        <button class="btn btn-primary notebutton" id="E" type="button">E</button>
+        <button class="btn btn-primary notebutton" id="A" type="button">A</button>
+        <button class="btn btn-primary notebutton" id="D" type="button">D</button>
+        <button class="btn btn-primary notebutton" id="G" type="button">G</button>
+        <button class="btn btn-primary notebutton" id="B" type="button">B</button>
+        <button class="btn btn-primary notebutton" id="e" type="button">e</button>
+    </div>
 
     <script>
             window.addEventListener("DOMContentLoaded", loadPage, false);
-            
+
             let ctx = null;
             let audio;
 
@@ -68,7 +69,7 @@
                         note.name = decodedAudio;
                     });
                 })
-            }       
+            }
 
             //playback buffered audiofile
             function playback(note) {
