@@ -7,7 +7,7 @@
 {% block main %}
     <h1>Tap Tempo</h1>
 
-    <p>Press any key on your keyboard or click the "Click"-Button to find the correct Tempo. Your last 8 taps will be analyzed. You can reset the calculation with the "Reset"-Button.</p>
+    <p>Press any key on your keyboard or click the "Click"-Button to find the correct Tempo. Your last 8 taps will be analyzed. You can reset the calculation with the "Reset"-Button or with the Escape-Key.</p>
 
     <h2 id="bpm">0 BPM</h1>
     <button id="click" class="btn btn-primary">Click</button>
@@ -19,7 +19,7 @@
     let array = []
     let BPM = 0;
 
-    console.log(time);
+    //console.log(time);
 
     const click = document.getElementById("click");
 
@@ -27,8 +27,14 @@
         findBPM();
     });
 
-    document.addEventListener("keydown", findBPM);
-
+    document.addEventListener("keydown", (event) => {
+        if(event.key === "Escape") {
+            reset();
+        }
+        else{
+            findBPM();
+        }
+    });
 
     document.getElementById("reset").addEventListener("click", (event) => {
         reset();
@@ -40,16 +46,16 @@
         }else{
             let newTime = Date.now();
             difference = (newTime - time)/1000;
-            console.log("click");
-            
+            //console.log("click");
+
             if(difference < 2){
                 array.push(difference);
             }
-            console.log(array.slice(-8));
+            //console.log(array.slice(-8));
             time = newTime;
 
             let averageTime = ArrayAvg(array.slice(-8));
-            console.log(averageTime)
+            //console.log(averageTime)
             BPM = Math.round(60 / averageTime);
             document.getElementById("bpm").innerHTML = BPM + " BPM";
         }
