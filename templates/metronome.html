@@ -34,11 +34,11 @@
         <label for="volume">Volume</label>
     </div>
 
-    <div class="playbutton"> 
+    <div class="playbutton">
         <div class="d-grid gap-2 col-6 mx-auto">
             <button class="btn btn-primary" id="playbutton" type="button">Play</button>
         </div>
-    </div> 
+    </div>
 </div>
 
 <!-- JS part -->
@@ -47,7 +47,7 @@
     const audioCtx = new AudioContext();
     let tempo = 100.0;
     let maxBeats = 4;
-    
+
     const lookahead = 25.0; // How frequently to call scheduling function (in milliseconds)
     const scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
     let currentNote = 0;
@@ -87,7 +87,7 @@
 
     //setting initial gain value
     primaryGainControl.gain.setValueAtTime(userVolume, 0);
-    
+
     //update gain on user input
     document.getElementById("volume").addEventListener(
         "input",
