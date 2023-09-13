@@ -10,8 +10,7 @@ You can choose between three different functions:
 
 ---
 
-**layout.html**
-using jinja syntax
+**layout.html** - In layout.html the main structure and layout of the site is build. It uses the Jinja syntax so all other html pages created can use the same template. The bootstrap Framework is used to design elements like the navigationbar and the footer. It is also used for menus and buttons on different pages.
 
 **index.html**
 
