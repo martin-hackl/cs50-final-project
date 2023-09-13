@@ -4,11 +4,13 @@
 CS50 Music Tools is a web application using the Flask framework.
 
 You can choose between three different functions:
-- The Metronome lets you choose your desired BPM and time signature and plays and oscillator sound generated with the Web Audio API.
-- In the Tap Tempo section you can press any key or click a button to calculate the BPM (beats per minute) of a song you are listening.
-- In the Tuner section you can playback individual audiofiles of a guitar strum to tune your guitar. The sounds will be buffered into cache when opening the page so the sounds can be played immediatly when you are clicking the buttons.
+- The **Metronome** lets you choose your desired BPM and time signature and plays and oscillator sound generated with the Web Audio API.
+- In the **Tap Tempo** section you can press any key or click a button to calculate the BPM (beats per minute) of a song you are listening.
+- In the **Tuner** section you can playback individual audiofiles of a guitar strum to tune your guitar. The sounds will be buffered into cache when opening the page so the sounds can be played immediatly when you are clicking the buttons.
 
 ---
+
+**app.py** - app.py defines the routes of the website. A variable passes the "active" status to the layout.html so only the page you are currently at is highlighted as active.
 
 **layout.html** - In layout.html the main structure and layout of the site is build. It uses the Jinja syntax so all other html pages created can use the same template. The bootstrap Framework is used to design elements like the navigationbar and the footer. It is also used for menus and buttons on different pages.
 
