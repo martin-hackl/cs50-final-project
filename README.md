@@ -1,5 +1,5 @@
 # CS50 Music Tools
-#### Video Demo:  <URL HERE>
+#### Video Demo:  <https://youtu.be/19lOHSq2_tY?si=U_3go0etlsAyR69i>
 #### Description:
 CS50 Music Tools is a web application using the Flask framework.
 
