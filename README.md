@@ -8,18 +8,20 @@ You can choose between three different functions:
 - In the Tap Tempo section you can press any key or click a button to calculate the BPM (beats per minute) of a song you are listening.
 - In the Tuner section you can playback individual audiofiles of a guitar strum to tune your guitar. The sounds will be buffered into cache when opening the page so the sounds can be played immediatly when you are clicking the buttons.
 
-#####layout.html
+---
+
+**layout.html**
 using jinja syntax
 
-#####index.html
+**index.html**
 
-metronome.html
+**metronome.html**
 
-tap-tempo.html
+**tap-tempo.html**
 
-tuner.html
+**tuner.html**
 
-styles.css
+**styles.css**
 
 images in static folder
 created with midjourney
