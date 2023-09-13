@@ -7,10 +7,11 @@
 {% block main %}
     <h1>Tap Tempo</h1>
 
-    Coming soon!
-    <h1 id="bpm">0 BPM</h1>
-    <button id="click">Click</button>
-    <button id="reset">Reset</button>
+    <p>Press any key on your keyboard or click the "Click"-Button to find the correct Tempo. Your last 8 taps will be analyzed. You can reset the calculation with the "Reset"-Button.</p>
+
+    <h2 id="bpm">0 BPM</h1>
+    <button id="click" class="btn btn-primary">Click</button>
+    <button id="reset" class="btn btn-primary">Reset</button>
 
 <script>
     let time = 0;
@@ -20,9 +21,20 @@
 
     console.log(time);
 
-    const button = document.getElementById("click");
+    const click = document.getElementById("click");
 
-    button.addEventListener("click", (event) => {
+    click.addEventListener("click", (event) => {
+        findBPM();
+    });
+
+    document.addEventListener("keydown", findBPM);
+
+
+    document.getElementById("reset").addEventListener("click", (event) => {
+        reset();
+    });
+
+    function findBPM(){
         if(time == 0){
             time = Date.now();
         }else{
@@ -41,14 +53,14 @@
             BPM = Math.round(60 / averageTime);
             document.getElementById("bpm").innerHTML = BPM + " BPM";
         }
-    });
+    }
 
-    document.getElementById("reset").addEventListener("click", (event) => {
+    function reset(){
         array = [];
         time = 0;
         BPM = 0;
         document.getElementById("bpm").innerHTML = BPM + " BPM";
-    });
+    }
 
     function ArrayAvg(myArray) {
         var i = 0, summ = 0, ArrayLen = myArray.length;
