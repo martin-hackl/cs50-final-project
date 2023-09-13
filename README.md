@@ -14,15 +14,12 @@ You can choose between three different functions:
 
 **layout.html** - In layout.html the main structure and layout of the site is build. It uses the Jinja syntax so all other html pages created can use the same template. The bootstrap Framework is used to design elements like the navigationbar and the footer. It is also used for menus and buttons on different pages.
 
-**index.html**
+**index.html** - on this page you can choose between the three different functions: Metronome, Tap tempo and Tuner. A card group from bootstrap is used and modified with css so the card with mouseover is highlighted blue and the cursor changes to a pointer.
 
-**metronome.html**
+**metronome.html** - Because when using a metronome time is a critical thing it was necessary to create a sceduling system to play the sounds in time as described [here](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Advanced_techniques).
 
-**tap-tempo.html**
+**tap-tempo.html** - In tap-tempo.html the time difference between two inputs (click on button or keydown) is calculated and stored in an array. The average of the last 8 array elements is calculated and converted into BPM. If the duration of the next click is more than 2 seconds it is not considered in the array as it would distort the result. With a reset button or when pressing the escape key the items of the array gets deleted so you could start from the beginning.
 
-**tuner.html**
+**tuner.html** - in a loadPage function soundfiles from freesound.org are loaded into cache which you can playback when pressing the according button
 
-**styles.css**
-
-images in static folder
-created with midjourney
+**images** -  images for the index page are created with midjourney
